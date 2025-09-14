@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+{% block content %}
+<head>
+  <link href="{{ url_for('static', path='css/resume.output.css') }}" rel="stylesheet">
+</head>
+<div class="flex min-h-screen bg-gray-100">
+<div class="form-wrapper">
+  <form id="pdfForm" method="POST" action="/generate-pdf" class="resume-form">
+
+    <!-- Personal Info Section -->
+    <div class="form-section">
+      <h2 class="section-title">Personal Information</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <input type="text" placeholder="Full Name" class="input-box" data-preview="preview-name" required>
+        <input type="email" placeholder="Email Address"
+               
+               class="input-box" data-preview="preview-email" required>
+        <input type="tel" placeholder="Phone Number" maxlength="15"
+                class="input-box" data-preview="preview-phone" required>
+        <input type="text" placeholder="Location (City, State)"
+               class="input-box" data-preview="preview-location" required>
+      </div>
+    </div>
+
+    <!-- Professional Summary -->
+    <div class="form-section">
+      <h2 class="section-title">Professional Summary</h2>
+      <textarea id="summaryInput" maxlength="500" placeholder="Write a brief professional summary" class="textarea-box"></textarea>
+      <div class="char-count"><span id="summaryCount">0</span>/500 characters</div>
+    </div>
+
+    <!-- Education Section -->
+    <div class="form-section">
+      <h2 class="section-title">Education</h2>
+      <div id="educationContainer">
+        <div class="education-block">
+          <input type="text" name="college[]" placeholder="College/University Name" class="input-box live-edu">
+          <input type="text" name="degree[]" placeholder="Degree (e.g., B.Tech, MBA)" class="input-box live-edu">
+          <select name="grading[]" class="input-box live-edu">
+            <option value="">Select Grading System</option>
+            <option value="CGPA">CGPA</option>
+            <option value="Percentage">Percentage</option>
+            <option value="GPA">GPA</option>
+            <option value="Grade">Grade</option>
+          </select>
+          <input type="text" name="marks[]" placeholder="Your Score" class="input-box live-edu">
+          <input type="text" name="year[]" placeholder="Year (e.g., 2020-2024)" class="input-box live-edu">
+          <input type="text" name="location[]" placeholder="Location" class="input-box live-edu">
+        </div>
+      </div>
+      <button type="button" id="addEducation" class="btn-primary">+ Add Another Education</button>
+    </div>
+
+    <!-- Skills -->
+    <div class="form-section">
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <input type="text" placeholder="Programming Languages" class="input-box live-input skill-input">
+        <input type="text" placeholder="Frontend Technologies" class="input-box live-input skill-input">
+        <input type="text" placeholder="Backend Technologies" class="input-box live-input skill-input">
+        <input type="text" placeholder="Tools & Frameworks" class="input-box live-input skill-input">
+        <input type="text" placeholder="General Skills" class="input-box live-input skill-input">
+        <input type="text" placeholder="Databases" class="input-box live-input skill-input">
+      </div>
+    </div>
+
+    <!-- Projects -->
+    <div class="form-section">
+      <h2 class="section-title">Projects</h2>
+      <div id="projectContainer">
+        <div class="project-block">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+            <input type="text" name="project_title[]" placeholder="Project Title" class="input-box live-project ">
+            <input type="text" name="project_tech[]" placeholder="Technologies Used" class="input-box live-project ">
+          </div>
+          <textarea name="project_desc[]" maxlength="300" placeholder="Describe your project..." class="textarea-box live-project "></textarea>
+        </div>
+      </div>
+      <button type="button" id="addProject" class="btn-primary">+ Add Another Project</button>
+    </div>
+
+    <!-- Experience -->
+    <div class="form-section">
+      <h2 class="section-title">Professional Experience</h2>
+      <div id="experienceContainer">
+        <div class="experience-block">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+            <input type="text" name="org[]" placeholder="Company/Organization" class="input-box live-exp ">
+            <input type="text" name="role[]" placeholder="Job Title/Role" class="input-box">
+            <input type="text" name="duration[]" placeholder="Duration (e.g., Jan 2021 - Dec 2023)" class="input-box live-exp md:col-span-2">
+          </div>
+          <textarea name="exp_desc[]" maxlength="400" placeholder="Describe your responsibilities..." class="textarea-box live-exp "></textarea>
+        </div>
+      </div>
+      <button type="button" id="addExperience" class="btn-primary">+ Add Another Experience</button>
+    </div>
+
+    <!-- Certifications -->
+    <div class="form-section">
+      <h2 class="section-title">Certifications</h2>
+      <div id="certificationContainer">
+        <div class="cert-block">
+          <input type="text" name="cert_name[]" placeholder="Certificate Name" class="input-box live-cert ">
+          <input type="text" name="cert_org[]" placeholder="Issuing Organization" class="input-box live-cert ">
+          <input type="text" name="cert_year[]" placeholder="Year Obtained" class="input-box live-cert  md:col-span-2">
+        </div>
+      </div>
+      <button type="button" id="addCertification" class="btn-primary">+ Add Another Certification</button>
+    </div>
+
+    <!-- Download -->
+    <div class="form-section download-section">
+      <div class="text-center">
+        <h3 class="download-title">Ready to Download?</h3>
+        <p class="download-note">Your resume will be generated as a professional PDF document</p>
+        <button id="downloadBtn" class="btn-download">📄 Download PDF Resume</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+    <!-- ========== PREVIEW SECTION ========== -->
+<div class="w-full md:w-1/2 overflow-y-auto h-screen bg-gray-200 p-4">
+    <div class="flex flex-col items-center space-y-4">
+
+    <!-- Resume Preview Container -->
+    <div id="resumePreviewContainer" class="space-y-4">
+        
+        <!-- Pages wrapper -->
+        <div id="pages" class="space-y-6">
+            <section class="a4-page bg-white shadow-lg" data-page="1">
+
+            <!-- Main Header -->
+            <div class="text-center border-b-2 border-gray-300 pb-2 resume-section mb-2">
+            <h1 id="preview-name" class="text-3xl  text-gray-800 mb-2 uppercase break-words">YOUR NAME</h1>
+            <div class="text-gray-600 ">
+                <div class="flex justify-center items-center space-x-4 flex-wrap break-words">
+                <span id="preview-email" class="break-all">your@email.com</span>
+                <span>•</span>
+                <span id="preview-phone" class="break-words">+91 XXXXX XXXXX</span>
+                <span>•</span>
+                <span id="preview-location" class="break-words">Your Location</span>
+                </div>
+            </div>
+            </div>
+
+            <!-- Resume Content Container -->
+            <div id="resume-content" class="page-content">
+
+            <!-- Professional Summary Section -->
+            <div id="preview-summary" class="resume-section "></div>
+
+            <!-- Education Section -->
+            <div id="education-section" class="resume-section m" style="display: none;">
+                <h3 class="text-lg font-semibold text-gray-700 border-b border-gray-300  mt-1">EDUCATION</h3>
+                <div id="preview-education"></div>
+            </div>
+
+            <!-- Skills Section -->
+            <div id="skills-section" class="resume-section " style="display: none;">
+                <h3 class="text-lg font-semibold text-gray-700 border-b border-gray-300  mt-1">SKILLS</h3>
+                <div id="preview-skills" class="space-y-1"></div>
+            </div>
+
+            <!-- Projects Section -->
+            <div id="projects-section" class="resume-section " style="display: none;">
+                <h3 class="text-lg font-semibold text-gray-700 border-b border-gray-300 mt-1">PROJECTS</h3>
+                <div id="preview-projects"></div>
+            </div>
+
+            <!-- Experience Section -->
+            <div id="experience-section" class="resume-section " style="display: none;">
+                <h3 class="text-lg font-semibold text-gray-700 border-b border-gray-300 mt-1 ">PROFESSIONAL EXPERIENCE</h3>
+                <div id="preview-experience"></div>
+            </div>
+
+            <!-- Certifications Section -->
+            <div id="certifications-section" class="resume-section" style="display: none;">
+                <h3 class="text-lg font-semibold text-gray-700 border-b border-gray-300 mt-1">CERTIFICATIONS</h3>
+                <div id="preview-certifications"></div>
+            </div>
+
+            </div>
+        </section>
+        </div>
+        
+    </div>
+    <!-- Preview Instructions -->
+    <div class="text-xs text-gray-500 text-center mt-2 no-print max-w-md">
+        <p>📝 Fill out the form on the left to see your resume preview update in real-time</p>
+        </div>
+    </div>
+</div>
+<!-- Enhanced JavaScript -->
+<script src="/static/js/form.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+
+<!-- Additional Script for Character Counting -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Summary character counter
+    const summaryInput = document.getElementById('summaryInput');
+    const summaryCount = document.getElementById('summaryCount');
+    
+    summaryInput.addEventListener('input', function() {
+        const length = this.value.length;
+        summaryCount.textContent = length;
+        
+        // Color coding for character count
+        if (length > 450) {
+            summaryCount.style.color = '#ef4444'; // Red
+        } else if (length > 350) {
+            summaryCount.style.color = '#f59e0b'; // Amber
+        } else {
+            summaryCount.style.color = '#6b7280'; // Gray
+        }
+    });
+    
+    // Add visual feedback for filled inputs
+    document.addEventListener('input', function(e) {
+        if (e.target.classList.contains('input-box')) {
+            if (e.target.value.trim()) {
+                e.target.classList.add('has-content');
+            } else {
+                e.target.classList.remove('has-content');
+            }
+        }
+    });
+    
+    // Smooth scroll to sections when adding new blocks
+    const addButtons = document.querySelectorAll('button[id^="add"]');
+    addButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            setTimeout(() => {
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        });
+    });
+});
+
+// Form validation helper
+function validateForm() {
+    const requiredFields = document.querySelectorAll('input[required]');
+    let isValid = true;
+
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            field.classList.add('input-error');
+            isValid = false;
+        } else {
+            field.classList.remove('input-error');
+        }
+    });
+
+    return isValid;
+}
+
+
+// Auto-save functionality (using sessionStorage as fallback)
+function autoSave() {
+    try {
+        const formData = {};
+        const inputs = document.querySelectorAll('input, textarea, select');
+        
+        inputs.forEach(input => {
+            if (input.name) {
+                if (!formData[input.name]) formData[input.name] = [];
+                formData[input.name].push(input.value);
+            } else if (input.id) {
+                formData[input.id] = input.value;
+            }
+        });
+        
+        // Store in memory only (no localStorage in Claude.ai)
+        window.resumeFormData = formData;
+        console.log('💾 Form data auto-saved to memory');
+        
+    } catch (error) {
+        console.warn('Auto-save failed:', error);
+    }
+}
+
+// Auto-save every 30 seconds
+setInterval(autoSave, 30000);
+
+// Save on form changes
+document.addEventListener('input', function() {
+    clearTimeout(window.autoSaveTimeout);
+    window.autoSaveTimeout = setTimeout(autoSave, 2000);
+});
+
+
+
+
+
+
+</script>
+
+{% endblock %}

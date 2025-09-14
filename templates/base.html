@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title or "Cheems Resume" }}</title>
+
+  <!-- Tailwind -->
+  <link href="{{ url_for('static', path='css/home.output.css') }}" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="bg-gray-100">
+
+  <!-- 🔹 NAVBAR -->
+  <!-- NAVBAR -->
+<nav class="shadow-md top-0 z-50 bg-white">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+    <!-- Logo -->
+    <a href="/" class="text-2xl font-bold flex items-center gap-1">
+      <span class="text-blue-600">Cheems</span>
+      <span class="text-gray-800">Resume</span>
+    </a>
+
+    <!-- Right Side -->
+    <div class="flex items-center gap-6">
+      {% if request.session.get('fullname') %}
+      <!-- Profile Dropdown -->
+      <div class="relative">
+        <button id="userMenuBtn" class="flex items-center gap-2 px-3 py-1 rounded">
+          <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+            {{ request.session.get('fullname')[0] | upper }}
+          </div>
+          <span class="hidden sm:inline">{{ request.session.get('fullname') }}</span>
+          <i data-feather="chevron-down" class="w-4"></i>
+        </button>
+
+        <div id="userMenu" class="hidden absolute right-0 mt-2 w-44 bg-white text-gray-800 shadow-lg rounded-md border">
+          <a href="#" id="profileBtn"
+             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+       <form id="logoutForm" action="/logout" method="post">
+  <button type="submit"
+          class="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
+          onclick="event.stopPropagation();">
+    Logout
+  </button>
+</form>
+<button id="openModalBtn" 
+        class="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600">
+  Delete Account
+</button>
+
+        </div>
+      </div>
+      {% else %}
+      <!-- Login/Signup -->
+      <button onclick="openModal('loginModal')" class="px-4 py-2 rounded text-white bg-blue-600 hover:bg-blue-400">Login</button>
+      <button onclick="openModal('signupModal')" class="bg-gray-800 text-white hover:bg-gray-400 px-4 py-2 rounded">Sign Up</button>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+<!-- 🔹 MAIN CONTENT --> 
+ <div class="container mx-auto mt-6 px-4">
+   {% block content %}{% endblock %} </div>
+   
+   <!-- 🔹 FOOTER --> 
+    <footer class="bg-gray-50 border-t border-gray-200 mt-10">
+       <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row md:items-center md:justify-between"> 
+        <div> <h2 class="text-lg font-semibold text-gray-800">Cheems Resume</h2>
+           <p class="text-sm text-gray-500">Create your resume in minutes — simple, fast, professional.</p>
+            <p class="text-xs text-gray-400">© {{year}} Cheems Resume. All rights reserved.</p>
+           </div>
+            <div class="mt-4 flex space-x-6">
+              <a href="#" class="text-gray-500 hover:text-blue-500"><i data-feather="github"></i></a>
+              <a href="#" class="text-gray-500 hover:text-blue-500"><i data-feather="linkedin"></i></a>
+              <a href="#" class="text-gray-500 hover:text-blue-500"><i data-feather="twitter"></i></a>
+            </div>
+          </div>
+        </footer>
+
+
+
+
+<!-- PROFILE MODAL -->
+<div id="profileModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-6 w-96 relative shadow-2xl">
+    <button id="closeProfile"
+            class="absolute top-2 right-2 text-red-600 hover:text-red-800 font-bold text-xl">×</button>
+
+    <!-- Avatar -->
+    <div class="flex justify-center mb-4">
+      <div class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold">
+        {{ request.session.get("fullname")[0] }}
+      </div>
+    </div>
+
+    <!-- User Info -->
+    <h2 class="text-xl font-bold text-center">{{ request.session.get("fullname") }}</h2>
+    <p class="text-sm text-gray-600 text-center">Logged in as</p>
+
+    <div class="mt-4 space-y-2 text-sm text-gray-700">
+      <p><span class="font-semibold">📧 Email:</span> {{ request.session.get("user") }}</p>
+      <p><span class="font-semibold">📱 Phone:</span> {{ request.session.get("phone", "N/A") }}</p>
+      <p><span class="font-semibold">📅 Joined:</span> {{ request.session.get("created_at", "N/A") }}</p>
+    </div>
+  </div>
+</div>
+
+
+<!---delete account modal-->
+<div id="deleteModal" 
+     class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
+    
+    <h2 class="text-xl font-bold text-gray-800 mb-4">Confirm Account Deletion</h2>
+    <p class="text-sm text-gray-600 mb-4">
+      This action is <span class="font-semibold text-red-600">irreversible</span>.  
+      Please enter your password to confirm.
+    </p>
+
+    <!-- Form -->
+    <form method="post" action="/delete-account">
+      <input type="password" 
+             name="password" 
+             placeholder="Enter your password" 
+             class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 mb-4"
+             required>
+      
+      <div class="flex justify-end gap-3">
+        <button type="button" id="closeModalBtn"
+                class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg">
+          Cancel
+        </button>
+        <button type="submit" 
+                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg">
+          Delete Account
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- JS -->
+<script>
+  feather.replace();
+
+  // --- DROPDOWN TOGGLE ---
+// dropdown toggle
+const userMenuBtn = document.getElementById('userMenuBtn');
+const userMenu = document.getElementById('userMenu');
+
+userMenuBtn?.addEventListener('click', e => {
+  e.stopPropagation();
+  userMenu.classList.toggle('hidden');
+});
+
+window.addEventListener('click', e => {
+  if (!e.target.closest('.relative')) {
+    userMenu?.classList.add('hidden');
+  }
+});
+
+
+
+  // --- PROFILE MODAL ---
+  const profileModal = document.getElementById('profileModal');
+  document.getElementById('profileBtn')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    userMenu.classList.add('hidden');
+    profileModal.classList.remove('hidden');
+  });
+  document.getElementById('closeProfile')?.addEventListener('click', () => {
+    profileModal.classList.add('hidden');
+  });
+
+  // --- delete account---
+ const modal = document.getElementById("deleteModal");
+  const openBtn = document.getElementById("openModalBtn");
+  const closeBtn = document.getElementById("closeModalBtn");
+
+  openBtn.addEventListener("click", () => {
+    modal.classList.remove("hidden");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
+
+  // agar user background pe click kare to bhi close ho
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.add("hidden");
+    }
+  });
+</script>

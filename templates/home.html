@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+{% block content %}
+<head>
+<link href="/static/css/home.output.css" rel="stylesheet">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+</head>
+<div class=" mt-10 ">
+  
+    <h1 class="text-2xl ml-20 font-extrabold mb-4 text-gray-800 tracking-tight  animate__animated animate__fadeInDown animate__faster">
+      WELCOME TO <span class="text-blue-600">CHEEMS RESUME<span> 🚀
+    </h1>
+
+    <h1 class="text-6xl ml-20 font-extrabold mb-10 text-gray-800 tracking-tight animate__animated animate__fadeInLeft ">
+      Create your <br> resume in minutes <br>
+      <span class="text-blue-600"> simple, fast, professional.</span>
+    <h1>
+
+    <a href="/get-started" >
+    <button  class="ml-20 bg-blue-600 hover:bg-blue-700 transition text-white px-6 py-2 rounded-lg font-semibold shadow focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 animate__animated animate__pulse animate__delay-1s animate__infinite">
+      GET STARTED
+    </button>
+  </a>
+{% if flash %}
+  <div 
+    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+           px-6 py-3 bg-red-100 text-red-700 rounded-xl shadow-lg z-50  animate__animated animate__bounceIn">
+    {{ flash }}
+  </div>
+{% endif %}
+
+<h4 class="text-center text-blue-600">HOW IT WORKS</h4>
+<h1 class= "text-4xl text-center font-extrabold mb-4 text-gray-800 tracking-tight  animate__animated animate__zoomIn animate__delay-1">
+  Build your job-winning<br>resume in four sample steps</h1>
+
+<!-- Animate.css (for entry animation) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10 px-4">
+
+  <!-- Step 1 -->
+  <div class="group relative p-6 bg-white rounded-2xl shadow-md flex flex-col items-center text-center 
+              transform transition duration-500 hover:-translate-y-2 hover:shadow-xl
+              animate__animated animate__fadeInLeft animate__delay-0.5s">
+    <div class="w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 font-bold mb-3 
+                transition-all duration-500 group-hover:scale-110">
+      1
+    </div>
+    <h3 class="font-bold text-lg mb-2 text-gray-800">Sign Up / Log In</h3>
+    <p class="text-gray-500">Create your free account to get started.</p>
+    <!-- Glow effect -->
+    <span class="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-blue-300 group-hover:shadow-[0_0_15px_2px_rgba(59,130,246,0.4)] transition-all duration-500"></span>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="group relative p-6 bg-white rounded-2xl shadow-md flex flex-col items-center text-center 
+              transform transition duration-500 hover:-translate-y-2 hover:shadow-xl
+              animate__animated animate__fadeInLeft animate__delay-1s">
+    <div class="w-12 h-12 flex items-center justify-center rounded-full bg-green-100 text-green-600 font-bold mb-3 
+                transition-all duration-500 group-hover:scale-110">
+      2
+    </div>
+    <h3 class="font-bold text-lg mb-2 text-gray-800">Fill Out Details</h3>
+    <p class="text-gray-500">Enter your info, skills, and experience.</p>
+    <span class="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-green-300 group-hover:shadow-[0_0_15px_2px_rgba(34,197,94,0.4)] transition-all duration-500"></span>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="group relative p-6 bg-white rounded-2xl shadow-md flex flex-col items-center text-center 
+              transform transition duration-500 hover:-translate-y-2 hover:shadow-xl
+              animate__animated animate__fadeInLeft animate__delay-1.5s">
+    <div class="w-12 h-12 flex items-center justify-center rounded-full bg-purple-100 text-purple-600 font-bold mb-3 
+                transition-all duration-500 group-hover:scale-110">
+      3
+    </div>
+    <h3 class="font-bold text-lg mb-2 text-gray-800">Preview in Real-time</h3>
+    <p class="text-gray-500">See your resume update as you type.</p>
+    <span class="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-purple-300 group-hover:shadow-[0_0_15px_2px_rgba(168,85,247,0.4)] transition-all duration-500"></span>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="group relative p-6 bg-white rounded-2xl shadow-md flex flex-col items-center text-center 
+              transform transition duration-500 hover:-translate-y-2 hover:shadow-xl
+              animate__animated animate__fadeInLeft animate__delay-2s">
+    <div class="w-12 h-12 flex items-center justify-center rounded-full bg-yellow-100 text-yellow-600 font-bold mb-3 
+                transition-all duration-500 group-hover:scale-110">
+      4
+    </div>
+    <h3 class="font-bold text-lg mb-2 text-gray-800">Download & Share</h3>
+    <p class="text-gray-500">Export your resume as PDF instantly.</p>
+    <span class="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-yellow-300 group-hover:shadow-[0_0_15px_2px_rgba(234,179,8,0.4)] transition-all duration-500"></span>
+  </div>
+
+</div>
+
+
+
+
+  <!-- Flash Message -->
+  {% if request.session.get("flash") %}
+    <div class="bg-green-50 text-green-800 border border-green-300 px-4 py-2 rounded-lg mb-5 font-medium shadow-sm animate-fade-in">
+      {{ request.session.get("flash") }}
+    </div>
+    {% set _ = request.session.pop("flash") %}
+  {% endif %}
+
+ 
+
+<!-- ✅ Signup Modal -->
+<div id="signupModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl p-6 w-96 relative shadow-2xl scale-95 opacity-0 transition-all duration-300 transform">
+    <button onclick="closeModal('signupModal')" class="absolute top-2 right-2 text-red-600 hover:text-red-800 font-bold text-xl">X</button>
+    <h2 class="text-2xl font-bold mb-4 text-white">Sign Up</h2>
+
+    <form method="POST" action="/signup" class="space-y-4 ">
+      <input type="text" name="fullname" placeholder="Full Name" class="input-box mb-1 w-full h-10 " required>
+      <input type="email" name="email" placeholder="Email" class="input-box mb-1 w-full h-10" required>
+      <input type="text" name="phone" placeholder="Phone Number" class="input-box mb-1 w-full h-10" required>
+
+      <!-- Password -->
+      <div>
+        <input type="password" name="password" id="password" placeholder="Password" class="input-box mb-1 w-full h-10"  required>
+      </div>
+      <p id="password-error" class="text-red-400 text-sm mb-3 hidden"></p>
+
+      <!-- Confirm Password -->
+      <div>
+        <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" class="input-box mb-1 w-full h-10" required>
+      </div>
+      <p id="confirm-password-error" class="text-red-400 text-sm mb-3 hidden"></p>
+
+      <!-- Show Password Checkbox -->
+      <div class="flex items-center space-x-2 text-white">
+        <input type="checkbox" id="showSignupPass" onclick="toggleSignupPassword()">
+        <label for="showSignupPass" class="text-sm">Show Passwords</label>
+      </div>
+
+      <!-- OTP Section -->
+      <div id="otp-section" class="hidden">
+        <input type="text" name="otp" placeholder="Enter OTP" class="input-box mb-1">
+      </div>
+<p id="otp-message" class="hidden mt-2 text-sm"></p>
+
+      <!-- Buttons -->
+      <button type="button" id="otp-btn" onclick="sendOtp()" 
+  class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg flex items-center justify-center space-x-2 transition">
+  
+  <!-- Spinner (hidden by default) -->
+  <svg id="otp-spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+  </svg>
+
+  <span id="otp-btn-text">Send OTP</span>
+</button>
+      <button type="submit" id="signup-btn" class="w-full bg-green-600 text-white py-2 rounded-lg opacity-50 cursor-not-allowed hidden" disabled>
+        Sign Up
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ✅ Login Modal -->
+<div id="loginModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl p-6 w-96 relative shadow-2xl scale-95 opacity-0 transition-all duration-300 transform">
+    <button onclick="closeModal('loginModal')" class="absolute top-2 right-2 text-red-600 hover:text-red-800 font-bold text-xl">X</button>
+    <h2 class="text-2xl font-bold mb-4 text-white">Login</h2>
+    <form method="post" action="/login">
+      <input type="email" name="email" placeholder="Email" class="input-box mb-3 w-full h-10 backdrop-blur-xl" required>
+      <div>
+        <input type="password" name="password" id="login_password" placeholder="Password" class="input-box mb-3 w-full h-10" required>
+      </div>
+
+      <!-- Show Password Checkbox -->
+      <div class="flex items-center space-x-2 text-white mb-3">
+        <input type="checkbox" id="showLoginPass" onclick="toggleLoginPassword()">
+        <label for="showLoginPass" class="text-sm">Show Password</label>
+      </div>
+
+      <div class="text-right mb-3">
+        <a href="#" onclick="openModal('forgotPasswordModal')" class="text-sm text-blue-400 hover:text-blue-600">
+          Forgot Password?
+        </a>
+      </div>
+      <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition">
+        Login
+      </button>
+    </form>
+  </div>
+</div>
+
+
+
+
+<!--  Forgot Password Modal -->
+<div id="forgotPasswordModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl p-6 w-96 relative shadow-2xl scale-95 opacity-0 transition-all duration-300 transform">
+    <button onclick="closeModal('forgotPasswordModal')" class="absolute top-2 right-2 text-red-600 hover:text-red-800 font-bold text-xl">X</button>
+    <h2 class="text-2xl font-bold mb-4 text-white">Reset Password</h2>
+    
+    <form method="post" action="/forgot-password">
+      <input type="email" name="email" placeholder="Enter your registered email" class="input-box mb-3 w-full h-10" required>
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition">
+        Send Reset Link
+      </button>
+    </form>
+
+    {% if request.session.get("flash") %}
+      <div class="mt-3 bg-red-100 text-red-700 border border-red-300 px-4 py-2 rounded-lg text-sm text-center">
+        {{ request.session.get("flash") }}
+      </div>
+      {% set _ = request.session.pop("flash") %}
+    {% endif %}
+  </div>
+</div>
+
+
+
+<script src="/static/js/home.js"></script>
+{% endblock %}

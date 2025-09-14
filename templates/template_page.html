@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<head>
+  <link href="/static/css/resume.output.css" rel="stylesheet">
+</head>
+
+<div class="max-w-5xl mx-auto py-5">
+  <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">
+    Choose Your Resume Template
+  </h2>
+
+  <div class="grid md:grid-cols-3 gap-8">
+    <!-- Template Card 1 -->
+    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition transform hover:-translate-y-2">
+      <img src="/static/images/template1.jpg" alt="Template 1" class="rounded-t-xl">
+      <div class="p-4 text-center">
+        <h3 class="font-semibold text-lg">Modern Template</h3>
+        <a href="/form?template=1" 
+           class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          Use This
+        </a>
+      </div>
+    </div>
+   <!--
+    template 2
+    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition transform hover:-translate-y-2">
+      <img src="/static/images/template2.png" alt="Template 2" class="rounded-t-xl">
+      <div class="p-4 text-center">
+        <h3 class="font-semibold text-lg">Classic Template</h3>
+        <a href="/form?template=2" 
+           class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          Use This
+        </a>
+      </div>
+    </div>
+
+    
+    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition transform hover:-translate-y-2">
+      <img src="/static/images/template3.png" alt="Template 3" class="rounded-t-xl">
+      <div class="p-4 text-center">
+        <h3 class="font-semibold text-lg">Minimal Template</h3>
+        <a href="/form?template=3" 
+           class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          Use This
+        </a>
+      </div>
+    </div>-->
+  </div>
+</div>
+{% endblock %}

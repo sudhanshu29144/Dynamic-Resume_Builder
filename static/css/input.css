@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.a4-page {
+  width: 794px; /* A4 width */
+  min-height: 1122px; /* A4 height */
+  padding: 40px;
+  box-sizing: border-box;
+  page-break-after: always;
+}
+
+.resume-section {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.form-wrapper { @apply w-full md:w-1/2 overflow-y-auto h-screen bg-white; }
+.resume-form  { @apply space-y-6 bg-white shadow-md p-6 rounded overflow-y-auto; }
+
+/* Section heading */
+.section-title { @apply text-xl font-bold mb-4 text-gray-800 border-b border-gray-200 pb-2; }
+
+/* Inputs / Textareas */
+.input-box   { @apply w-full h-10 py-2 px-3 text-sm border rounded border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 bg-white placeholder-gray-400; }
+.textarea-box { @apply w-full p-3 border rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500; }
+
+/* Blocks */
+.education-block,
+
+.cert-block { @apply grid grid-cols-1 md:grid-cols-2 gap-3 bg-gray-50 p-4 rounded border; }
+
+/* Buttons */
+.btn-primary  { @apply mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors; }
+.btn-download { @apply w-full px-6 py-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors shadow-md; }
+
+/* Small helpers */
+.char-count     { @apply text-xs text-gray-500 mt-1; }
+.download-section { @apply mt-8 pt-6 border-t border-gray-200; }
+.download-title   { @apply text-lg font-semibold text-gray-700 mb-4; }
+.download-note    { @apply text-sm text-gray-600 mb-6; }
+
+
+
+.project-block,
+.experience-block{ @apply space-y-3 gap-3 p-4 rounded border; }
+
+
+.input-error {
+  border: 2px solid red !important;
+  background-color: #ffecec;
+}
