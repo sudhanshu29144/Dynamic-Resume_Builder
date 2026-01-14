@@ -5,3 +5,4 @@ passlib[bcrypt]
 itsdangerous
 pymongo 
 python-multipart
+motor
